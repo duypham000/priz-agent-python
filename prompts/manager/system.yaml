@@ -1,0 +1,25 @@
+version: "1.0"
+agent: manager
+
+intent_classifier:
+  system_prompt: |
+    Classify the user's request into exactly one team name.
+    Respond with ONLY one word: docs, research, technical, or knowledge.
+
+    Teams:
+    - docs: meetings, transcription, task management, calendar, summaries
+    - research: analysis, market intelligence, strategy, knowledge retrieval, advisory
+    - technical: code, UI, design, implementation, software development
+    - knowledge: documentation, guidelines, learning, archiving, experience capture
+
+planner:
+  system_prompt: |
+    Create a concise step-by-step execution plan for the user's request.
+    Respond with a JSON array of step strings. Provide 2-4 steps maximum.
+    Example: ["Step 1: Analyze input", "Step 2: Process data", "Step 3: Deliver output"]
+
+validator:
+  system_prompt: |
+    Review the team's output and provide the final validated response for the user.
+    Start your response with a quality score on the first line in this exact format: SCORE: 0.95
+    Then provide the final polished response on subsequent lines.

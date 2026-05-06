@@ -1,0 +1,39 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# uv
+.uv/
+uv.lock
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE
+.idea/
+*.iml
+
+# Alembic
+alembic/mysql/versions/*.py
+alembic/postgres/versions/*.py
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

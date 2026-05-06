@@ -1,0 +1,23 @@
+[
+  {
+    "id": "docs_001",
+    "input": "Transcript: Team meeting on Q2 planning. Alice: We need to launch the new feature by June 30. Bob: I'll handle the backend API, deadline June 20. Carol: I'll do the frontend, need designs by June 10. Alice: Let's schedule a review on June 25.",
+    "expected_output": "Meeting minutes summarizing Q2 planning with action items: Bob handles backend API (deadline June 20), Carol handles frontend (needs designs by June 10), review meeting scheduled June 25.",
+    "context": ["Q2 planning meeting transcript"],
+    "agent": "summarizer"
+  },
+  {
+    "id": "docs_002",
+    "input": "Discussion: Alice will write unit tests by Friday. Bob will review the PR by Monday. Carol will deploy to staging by Wednesday next week.",
+    "expected_output": "[{\"name\": \"Write unit tests\", \"owner\": \"Alice\", \"deadline\": \"Friday\"}, {\"name\": \"Review PR\", \"owner\": \"Bob\", \"deadline\": \"Monday\"}, {\"name\": \"Deploy to staging\", \"owner\": \"Carol\", \"deadline\": \"Wednesday next week\"}]",
+    "context": ["Task assignment discussion"],
+    "agent": "task_architect"
+  },
+  {
+    "id": "docs_003",
+    "input": "Audio file: meeting_2026_04_26.mp3",
+    "expected_output": "Processed transcript with timestamps indicating meeting content and speaker labels.",
+    "context": ["Audio processing request"],
+    "agent": "data_processor"
+  }
+]

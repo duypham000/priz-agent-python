@@ -1,0 +1,80 @@
+name: pagent
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: pagent-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: pagent
+      MYSQL_PASSWORD: pagent
+      MYSQL_DATABASE: pagent
+    ports:
+      - "3316:3306"
+    volumes:
+      - pagent-mysql-data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - pagent-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "pagent", "-ppagent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: pagent-postgres
+    environment:
+      POSTGRES_USER: pagent
+      POSTGRES_PASSWORD: pagent
+      POSTGRES_DB: pagent
+    ports:
+      - "5442:5432"
+    volumes:
+      - pagent-postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - pagent-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pagent -d pagent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: pagent-redis
+    ports:
+      - "6389:6379"
+    volumes:
+      - pagent-redis-data:/data
+    networks:
+      - pagent-net
+
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    container_name: pagent-phoenix
+    ports:
+      - "6016:6006"
+    networks:
+      - pagent-net
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: pagent-prometheus
+    ports:
+      - "9290:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - pagent-net
+
+networks:
+  pagent-net:
+    driver: bridge
+
+volumes:
+  pagent-mysql-data:
+  pagent-postgres-data:
+  pagent-redis-data:

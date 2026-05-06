@@ -1,0 +1,116 @@
+agents:
+  # Manager Orchestrator (Phase 9)
+  manager:
+    model: gemini-2.0-flash-thinking-exp
+    provider: gemini
+    thinking: extended
+    temperature: 0.0
+    description: "Top-level orchestrator: intent classification, planning, routing, HITL, validation"
+
+  # Team 1: Documentation & Ops (Phase 10)
+  data_processor:
+    model: gemini-2.0-flash
+    provider: gemini
+    thinking: false
+    temperature: 0.0
+    description: "Multi-modal input: audio/video -> transcript -> Markdown + timestamps"
+
+  summarizer:
+    model: gemini-1.5-flash
+    provider: gemini
+    thinking: false
+    temperature: 0.2
+    description: "Script -> Meeting Minutes, Executive Summary"
+
+  task_architect:
+    model: gemini-1.5-flash
+    provider: gemini
+    thinking: false
+    temperature: 0.0
+    description: "Discussion -> Action Items JSON (name, deadline, owner)"
+
+  sync_manager:
+    model: gemini-1.5-flash
+    provider: gemini
+    thinking: false
+    temperature: 0.0
+    description: "Push tasks to Calendar/Notion/Jira API"
+
+  # Team 2: Research & Advisory (Phase 11)
+  internal_brain:
+    model: gemini-1.5-pro
+    provider: gemini
+    thinking: false
+    temperature: 0.1
+    description: "RAG on Personal Knowledge Base (pgvector) - Corrective RAG loop"
+
+  market_scout:
+    model: gemini-1.5-flash
+    provider: gemini
+    thinking: false
+    temperature: 0.3
+    description: "Web search via Tavily + LATS tree search expansion"
+
+  strategic_advisor:
+    model: gemini-1.5-pro
+    provider: gemini
+    thinking: false
+    temperature: 0.2
+    description: "SWOT synthesis from internal + web data"
+
+  # Team 3: Technical Execution (Phase 12)
+  visual_interpreter:
+    model: gemini-2.0-flash
+    provider: gemini
+    thinking: false
+    temperature: 0.0
+    description: "Multimodal Vision: UI/Figma/screenshot -> design spec"
+
+  code_architect:
+    model: gemini-2.0-flash-exp
+    provider: gemini
+    thinking: false
+    temperature: 0.1
+    description: "Code generation (frontend/backend/script) from design spec"
+
+  quality_gatekeeper:
+    model: gemini-1.5-pro
+    provider: gemini
+    thinking: false
+    temperature: 0.0
+    description: "Double-Check Verification: run code -> review -> PASS/FAIL"
+
+  # Team 4: Knowledge & Learning (Phase 13)
+  knowledge_scout:
+    model: gemini-1.5-flash
+    provider: gemini
+    thinking: false
+    temperature: 0.1
+    description: "Doc/link -> Technical Markdown Summary"
+
+  experience_archivist:
+    model: gemini-1.5-pro
+    provider: gemini
+    thinking: false
+    temperature: 0.0
+    description: "Phoenix traces -> lessons learned -> pattern extraction"
+
+  yaml_architect:
+    model: gemini-1.5-pro
+    provider: gemini
+    thinking: false
+    temperature: 0.0
+    description: "Synthesize lessons -> YAML guidelines -> Git commit to prompts/"
+
+# Fallback chain: tried in order when primary adapter fails
+fallback_chain:
+  - gemini-2.0-flash
+  - gemini-1.5-flash
+  - mock-model
+
+# Mock configuration for testing and CI/CD
+mock:
+  model: mock-model
+  seed: 42
+  delay_ms: 0
+  error_rate: 0.0

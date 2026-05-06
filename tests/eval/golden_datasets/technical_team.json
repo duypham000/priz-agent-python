@@ -1,0 +1,23 @@
+[
+  {
+    "id": "technical_001",
+    "input": "Generate a Python function that validates an email address using regex and returns True/False.",
+    "expected_output": "A complete Python function with proper imports, regex pattern for email validation, docstring, and return type annotation. Should handle edge cases.",
+    "context": ["Python email validation requirements"],
+    "agent": "code_architect"
+  },
+  {
+    "id": "technical_002",
+    "input": "Review this code for bugs: def add(a, b): return a - b",
+    "expected_output": "Code review identifying the bug: subtraction operator used instead of addition. VERDICT: FAIL. Suggested fix: return a + b.",
+    "context": ["Simple arithmetic function code review"],
+    "agent": "quality_gatekeeper"
+  },
+  {
+    "id": "technical_003",
+    "input": "Figma screenshot showing a login form with email field, password field, and submit button.",
+    "expected_output": "Component specification listing: LoginForm component with EmailInput (type=email, required), PasswordInput (type=password, minLength=8), SubmitButton (text='Login', variant=primary). Includes layout and accessibility requirements.",
+    "context": ["Figma design export"],
+    "agent": "visual_interpreter"
+  }
+]

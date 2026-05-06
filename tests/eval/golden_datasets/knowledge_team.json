@@ -1,0 +1,32 @@
+[
+  {
+    "id": "knowledge_001",
+    "input": "Summarize the LangGraph documentation on StateGraph and conditional edges.",
+    "expected_output": "A technical markdown summary covering: StateGraph definition, node registration, edge types (direct, conditional), compile() method, and streaming options. Includes code examples.",
+    "context": [
+      "LangGraph is a framework for building stateful multi-actor applications",
+      "StateGraph manages state flow between nodes"
+    ],
+    "agent": "knowledge_scout"
+  },
+  {
+    "id": "knowledge_002",
+    "input": "Analyze the last 50 trace logs from Phoenix to identify patterns in agent failures.",
+    "expected_output": "Analysis report identifying: top failure categories, success rate per agent, recommended improvements to prompts or retry logic.",
+    "context": [
+      "Phoenix tracing enabled for all LangGraph nodes",
+      "Common failure: tool timeout after 30s"
+    ],
+    "agent": "experience_archivist"
+  },
+  {
+    "id": "knowledge_003",
+    "input": "Based on analysis, create YAML guidelines for improving the market_scout agent's search strategy.",
+    "expected_output": "Valid YAML file with version field, system prompt improvements, and specific instructions for better web search query formulation.",
+    "context": [
+      "Current market_scout.yaml v1.0",
+      "Identified weakness: queries too broad"
+    ],
+    "agent": "yaml_architect"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "research_001",
+    "input": "What are the main competitors in the AI agent market in 2025?",
+    "expected_output": "A comprehensive analysis covering major AI agent platforms including their strengths, market positioning, and competitive differentiation.",
+    "context": [
+      "The AI agent market has grown significantly in 2024-2025.",
+      "Key players include AutoGPT, LangChain, CrewAI, and enterprise solutions from OpenAI and Anthropic."
+    ],
+    "agent": "market_scout"
+  },
+  {
+    "id": "research_002",
+    "input": "Analyze the strengths and weaknesses of our current architecture for scaling to 10,000 concurrent users.",
+    "expected_output": "SWOT analysis with specific strengths (Redis caching, async FastAPI), weaknesses (single database), opportunities (horizontal scaling), and threats (cost explosion). Includes prioritized action items.",
+    "context": [
+      "Current architecture: FastAPI + Redis + PostgreSQL + MySQL",
+      "Current load: ~100 concurrent users",
+      "Redis is used for caching and rate limiting"
+    ],
+    "agent": "strategic_advisor"
+  },
+  {
+    "id": "research_003",
+    "input": "Find internal documentation about our RAG implementation approach.",
+    "expected_output": "Retrieved relevant documentation about the Corrective RAG loop implementation, including pgvector setup and relevance grading.",
+    "context": [
+      "LongTermMemory uses pgvector for embeddings",
+      "Corrective RAG loop: embed_and_store, retrieve, grade_relevance, rewrite_query"
+    ],
+    "agent": "internal_brain"
+  }
+]

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package com.priz.interfaces.user;
+
+option java_multiple_files = true;
+option java_package = "com.priz.interfaces.user";
+option java_outer_classname = "UserServiceProto";
+
+service UserService {
+  rpc GetUser (GetUserRequest) returns (UserInfo);
+  rpc GetUserContext (GetUserContextRequest) returns (UserExecutionContext);
+  rpc ListActiveUsers (ListActiveUsersRequest) returns (ListActiveUsersResponse);
+}
+
+// ── GetUser ───────────────────────────────────────────────────────────────────
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message UserInfo {
+  string user_id = 1;
+  string email   = 2;
+  repeated string roles = 3;
+}
+
+// ── GetUserContext ─────────────────────────────────────────────────────────────
+
+message GetUserContextRequest {
+  string user_id = 1;
+}
+
+message UserExecutionContext {
+  string user_id                  = 1;
+  map<string, string> preferences = 2;
+  ResourceQuotas quotas           = 3;
+}
+
+message ResourceQuotas {
+  int32 max_sessions        = 1;
+  int32 requests_per_minute = 2;
+  int32 max_tokens_per_day  = 3;
+}
+
+// ── ListActiveUsers ────────────────────────────────────────────────────────────
+
+message ListActiveUsersRequest {
+  int32 active_within_days = 1;
+}
+
+message UserSummary {
+  string user_id       = 1;
+  string jira_token    = 2;
+  string slack_user_id = 3;
+  string timezone      = 4;
+  map<string, string> preferences = 5;
+}
+
+message ListActiveUsersResponse {
+  repeated UserSummary users = 1;
+}
