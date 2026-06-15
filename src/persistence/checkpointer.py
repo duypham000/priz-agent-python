@@ -8,8 +8,13 @@ class CheckpointerManager:
     """Async context manager wrapping AsyncPostgresSaver for LangGraph state persistence."""
 
     def __init__(self, postgres_url: str) -> None:
-        # AsyncPostgresSaver requires psycopg3 URL format (no +asyncpg driver prefix)
-        self._psycopg_url = postgres_url.replace("postgresql+asyncpg://", "postgresql://")
+        # AsyncPostgresSaver requires psycopg3 URL format (no +asyncpg driver prefix).
+        # asyncpg uses ?ssl=require; psycopg3 (libpq) uses ?sslmode=require.
+        self._psycopg_url = (
+            postgres_url
+            .replace("postgresql+asyncpg://", "postgresql://")
+            .replace("ssl=require", "sslmode=require")
+        )
         self._saver: AsyncPostgresSaver | None = None
         self._conn_ctx: Any = None
 
