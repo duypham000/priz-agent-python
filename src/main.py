@@ -46,12 +46,27 @@ async def lifespan(app: FastAPI):
 
     # Ensure database exists on shared server
     try:
+        import ssl as _ssl
+        from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
         from sqlalchemy import create_engine, text
-        # Use a temporary sync engine to create database (connecting to 'mysql' system db)
         base_url = settings.mysql_url.split("/pagent")[0] + "/mysql"
-        # Convert async driver to sync driver for this one-off task
-        sync_url = base_url.replace("+aiomysql", "").replace("+asyncpg", "")
-        temp_engine = create_engine(sync_url)
+        # Use pymysql (sync) instead of aiomysql; strip TiDB Cloud-specific SSL URL params.
+        sync_url = base_url.replace("+aiomysql", "+pymysql").replace("+asyncpg", "+psycopg2")
+        parsed = urlparse(sync_url)
+        qs = parse_qs(parsed.query, keep_blank_values=True)
+        ca_path = qs.pop("ssl_ca", [None])[0]
+        qs.pop("ssl_verify_cert", None)
+        qs.pop("ssl_verify_identity", None)
+        sync_url = urlunparse(parsed._replace(query=urlencode(qs, doseq=True)))
+        connect_args = {}
+        if ca_path:
+            ctx = _ssl.create_default_context()
+            try:
+                ctx.load_verify_locations(ca_path)
+            except Exception:
+                ctx = _ssl.create_default_context()
+            connect_args["ssl"] = ctx
+        temp_engine = create_engine(sync_url, connect_args=connect_args)
         with temp_engine.connect() as conn:
             conn.execute(text("CREATE DATABASE IF NOT EXISTS pagent"))
             conn.commit()

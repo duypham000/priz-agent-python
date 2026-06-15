@@ -203,46 +203,27 @@ class TestRateLimitMiddleware:
         middleware._window = 60
         return middleware
 
-    def test_extract_user_id_validToken_returnsSubject(self):
-        # Arrange
-        from jose import jwt as _jwt
-        middleware = self._make_middleware()
-        secret = "test-secret-at-least-32-chars-long!!"
-        token = _jwt.encode({"sub": "user-123"}, secret, algorithm="HS256")
-
-        request = MagicMock()
-        request.headers.get.return_value = f"Bearer {token}"
-
-        # Act — patch module-level settings in middleware
-        with patch("src.api.middleware.settings") as fake_settings:
-            fake_settings.jwt_secret = secret
-            result = middleware._extract_user_id(request)
-
-        # Assert
-        assert result == "user-123"
-
-    def test_extract_user_id_missingBearer_returnsNone(self):
-        # Arrange
+    def test_extract_user_id_headerPresent_returnsUserId(self):
+        # Arrange — Kong injects X-User-Id after Phantom Token validation
         middleware = self._make_middleware()
         request = MagicMock()
-        request.headers.get.return_value = ""
+        request.headers.get.return_value = "user-123"
 
         # Act
         result = middleware._extract_user_id(request)
 
         # Assert
-        assert result is None
+        assert result == "user-123"
+        request.headers.get.assert_called_once_with("X-User-Id")
 
-    def test_extract_user_id_invalidToken_returnsNone(self):
-        # Arrange
+    def test_extract_user_id_headerAbsent_returnsNone(self):
+        # Arrange — request did not pass through Kong (e.g. direct internal call)
         middleware = self._make_middleware()
         request = MagicMock()
-        request.headers.get.return_value = "Bearer not-a-valid-token"
+        request.headers.get.return_value = None
 
         # Act
-        with patch("src.api.middleware.settings") as fake_settings:
-            fake_settings.jwt_secret = "some-secret"
-            result = middleware._extract_user_id(request)
+        result = middleware._extract_user_id(request)
 
         # Assert
         assert result is None

@@ -21,7 +21,6 @@ dependencies = [
     "langgraph-checkpoint-postgres>=2.0",
     "psycopg[binary]>=3.1",
     "psycopg-pool>=3.1",
-    "python-jose[cryptography]>=3.3",
     "opentelemetry-api>=1.24",
     "opentelemetry-sdk>=1.24",
     "opentelemetry-exporter-otlp-proto-http>=1.24",
@@ -29,6 +28,7 @@ dependencies = [
     "prometheus-client>=0.20",
     "apscheduler>=3.10,<4.0",
     "grpcio>=1.60",
+    "tenacity>=8.2",
 ]
 
 [dependency-groups]

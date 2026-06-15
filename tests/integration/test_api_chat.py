@@ -6,13 +6,11 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
-from jose import jwt
 
 from src.api.deps import get_checkpointer, get_current_user, get_db, get_llm_registry
 from src.llm.mock import MockAdapter
 from src.llm.registry import LLMRegistry
 from src.main import app
-from src.settings import settings
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -22,10 +20,6 @@ TEST_THREAD_ID = str(uuid.uuid4())
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
-
-
-def _make_token(user_id: str = TEST_USER_ID) -> str:
-    return jwt.encode({"sub": user_id}, settings.jwt_secret, algorithm="HS256")
 
 
 def _make_user(user_id: str = TEST_USER_ID) -> MagicMock:

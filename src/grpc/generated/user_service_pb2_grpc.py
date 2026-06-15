@@ -35,17 +35,17 @@ class UserServiceStub(object):
             channel: A grpc.Channel.
         """
         self.GetUser = channel.unary_unary(
-                '/com.priz.interfaces.user.UserService/GetUser',
+                '/com.tomo.interfaces.user.UserService/GetUser',
                 request_serializer=user__service__pb2.GetUserRequest.SerializeToString,
                 response_deserializer=user__service__pb2.UserInfo.FromString,
                 _registered_method=True)
         self.GetUserContext = channel.unary_unary(
-                '/com.priz.interfaces.user.UserService/GetUserContext',
+                '/com.tomo.interfaces.user.UserService/GetUserContext',
                 request_serializer=user__service__pb2.GetUserContextRequest.SerializeToString,
                 response_deserializer=user__service__pb2.UserExecutionContext.FromString,
                 _registered_method=True)
         self.ListActiveUsers = channel.unary_unary(
-                '/com.priz.interfaces.user.UserService/ListActiveUsers',
+                '/com.tomo.interfaces.user.UserService/ListActiveUsers',
                 request_serializer=user__service__pb2.ListActiveUsersRequest.SerializeToString,
                 response_deserializer=user__service__pb2.ListActiveUsersResponse.FromString,
                 _registered_method=True)
@@ -92,9 +92,9 @@ def add_UserServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'com.priz.interfaces.user.UserService', rpc_method_handlers)
+            'com.tomo.interfaces.user.UserService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('com.priz.interfaces.user.UserService', rpc_method_handlers)
+    server.add_registered_method_handlers('com.tomo.interfaces.user.UserService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -115,7 +115,7 @@ class UserService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/com.priz.interfaces.user.UserService/GetUser',
+            '/com.tomo.interfaces.user.UserService/GetUser',
             user__service__pb2.GetUserRequest.SerializeToString,
             user__service__pb2.UserInfo.FromString,
             options,
@@ -142,7 +142,7 @@ class UserService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/com.priz.interfaces.user.UserService/GetUserContext',
+            '/com.tomo.interfaces.user.UserService/GetUserContext',
             user__service__pb2.GetUserContextRequest.SerializeToString,
             user__service__pb2.UserExecutionContext.FromString,
             options,
@@ -169,7 +169,7 @@ class UserService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/com.priz.interfaces.user.UserService/ListActiveUsers',
+            '/com.tomo.interfaces.user.UserService/ListActiveUsers',
             user__service__pb2.ListActiveUsersRequest.SerializeToString,
             user__service__pb2.ListActiveUsersResponse.FromString,
             options,
